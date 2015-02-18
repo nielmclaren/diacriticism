@@ -1,0 +1,33 @@
+html, body {
+  font-family: Arial, Verdana, sans-serif;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  width: 100%;
+}
+
+#diacriticism {
+  height: 100%;
+  width: 100%;
+}
+
+#diacriticism .output {
+  font-size: 38pt;
+  height: 30%;
+  margin: 20% 0 0 0;
+  text-align: center;
+  white-space: pre;
+}
+
+#diacriticism .form {
+  margin: 10px auto;
+  width: 300px;
+}
+
+#diacriticism .input {
+  font-size: 22pt;
+  text-align: center;
+  width: 100%;
+}
+
