@@ -1,22 +1,35 @@
 html, body {
   font-family: Arial, Verdana, sans-serif;
   height: 100%;
-  margin: 0;
-  overflow: hidden;
-  padding: 0;
-  width: 100%;
 }
 
 #diacriticism {
   height: 100%;
-  width: 100%;
 }
 
-#diacriticism .output {
+#diacriticism #main-output {
   font-size: 38pt;
-  height: 30%;
-  margin: 20% 0 0 0;
+  height: 25%;
+  margin: 10% 0 0 0;
   text-align: center;
+  white-space: pre;
+}
+
+#diacriticism .output-grid {
+  margin: 120px auto;
+  width: 930px;
+}
+
+#diacriticism .output-grid .output {
+  background: #f9f9f9;
+  float: left;
+  font-size: 16pt;
+  height: 25px;
+  margin: 10px;
+  overflow: hidden;
+  padding: 70px 20px 50px 20px;
+  text-align: center;
+  width: 250px;
   white-space: pre;
 }
 
@@ -28,6 +41,16 @@ html, body {
 #diacriticism .input {
   font-size: 22pt;
   text-align: center;
-  width: 100%;
+}
+
+#diacriticism .footer {
+  clear: both;
+  padding: 40px;
+  text-align: center;
+}
+
+#diacriticism .subdued {
+  color: #999;
+  font-size: 0.9em;
 }
 

@@ -8,13 +8,50 @@
     <link href="diacriticism.css" rel="stylesheet">
   </head>
   <body>
-    <div id="diacriticism"></div>
+    <div id="diacriticism">
+      <div id="main-output" class="output"></div>
+      <div class="form">
+        <input type="text" class="input" type="text" value="diacriticism" />
+      </div>
+      <div class="output-grid"></div>
+      <div class="footer">
+        <p class="subdued">This is a tool for abusing <a href="http://en.wikipedia.org/wiki/Combining_Diacritical_Marks">combining diacritical marks</a> made by <a href="http://danielmclaren.com">Niel McLaren</a>.</p>
+        <p class="subdued">Click grey boxes to copy text to the clipboard.</p>
+      </div>
+    </div>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="zeroclipboard/ZeroClipboard.js"></script>
     <script type="text/javascript" src="diacriticism.js"></script>
     <script type="text/javascript">
-      diacriticism('#diacriticism');
+      var setupDiacriticism = (function() {
+        return function(dc) {
+          dc.val($('.input').val());
+          $('.input')
+            .focus(function() {
+              this.select();
+            })
+            .keyup(function(e) {
+              if (e.which == 13) {
+                dc.reset();
+              }
+              else {
+                dc.val($('.input').val());
+              }
+            })
+            .select();
+        }
+      })();
+
+      var dc = diacriticism('#main-output');
+      setupDiacriticism(dc);
+      var criticisms = Array.apply(null, Array(21)).map(function(_, i) {
+        $('.output-grid')
+          .append('<div id="output-' + i + '" class="output"></div>');
+        var dc = diacriticism('#output-' + i);
+        setupDiacriticism(dc);
+        return dc;
+      });
     </script>
   </body>
 </html>

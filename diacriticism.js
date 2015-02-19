@@ -1,46 +1,39 @@
 var diacriticism = (function() {
-  return function(selector) {
-    $(selector)
-      .append('<div class="output"></div>')
-      .append('<div class="form"><input type="text" class="input" type="text" value="diacriticism" /></div>');
+  return function(s) {
+    return (function(selector) {
+      var value = '',
+        data = getData(value);
 
-    (new ZeroClipboard($(selector).find('.output')))
-      .on('copy', function(e) {
-        e.clipboardData.setData('text/plain', $(selector).find('.output').text());
-      });
+      (new ZeroClipboard($(selector)))
+        .on('copy', function(e) {
+          e.clipboardData.setData('text/plain', $(selector).text());
+        });
 
-    $(selector).find('.input')
-      .focus(function() {
-        this.select();
-      })
-      .keyup(function(e) {
-        if (e.which == 13) {
-          criticizer.reset();
+      setInterval(criticizer, 50);
+
+      var api = {
+        val: function(v) {
+          value = v;
+          criticizer();
+          return api;
+        },
+        reset: function() {
+          data = getData(selector);
+          return api;
         }
-        criticizer();
-      })
-      .select();
+      };
+      return api;
 
-    var criticizer = (function(selector) {
-      var data = getData(selector);
-      var c = function() {
-        data = criticize(data, $(selector).find('.input').val());
-        $(selector).find('.output')
+      function criticizer() {
+        data = criticize(data, value);
+        $(selector)
           .text(data.map(function(d) { return d[0] + d[1].join(''); }).join(''));
-      };
-      c.reset = function() {
-        data = getData(selector);
-      };
-      return c;
-    })(selector);
+      }
 
-    function getData(selector) {
-      return $(selector).find('.input').val().split('')
-        .map(function(d) { return [d, []]; });
-    }
-
-    setInterval(criticizer, 100);
-    criticizer();
+      function getData(v) {
+        return v.split('').map(function(d) { return [d, []]; });
+      }
+    })(s);
   };
 
   function criticize(data, value) {
