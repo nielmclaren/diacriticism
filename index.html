@@ -12,11 +12,18 @@
       <div id="main-output" class="output"></div>
       <div class="form">
         <input type="text" class="input" type="text" value="diacriticism" />
+        <div class="presets">
+          <label for="presetInput">presets</label>
+          <select id="presetInput"></select>
+          &nbsp;|&nbsp;
+          <button id="refreshButton">Refresh</button>
+        </div>
       </div>
-      <div class="output-grid"></div>
+      <div class="output-grid">
+        <p class="instructions">Click grey boxes to copy text to the clipboard.</p>
+      </div>
       <div class="footer">
-        <p class="subdued">This is a tool for abusing <a href="http://en.wikipedia.org/wiki/Combining_Diacritical_Marks">combining diacritical marks</a> made by <a href="http://danielmclaren.com">Niel McLaren</a>.</p>
-        <p class="subdued">Click grey boxes to copy text to the clipboard.</p>
+        <p class="subdued">This is a tool for abusing <a href="http://en.wikipedia.org/wiki/Combining_Diacritical_Marks">combining diacritical marks</a> made by <a href="http://danielmclaren.com">Niel McLaren</a>. <a href="https://github.com/danielgm/diacriticism">Source code</a>.</p>
       </div>
     </div>
 
@@ -40,17 +47,31 @@
               }
             })
             .select();
+          return dc;
         }
       })();
 
-      var dc = diacriticism('#main-output');
-      setupDiacriticism(dc);
       var criticisms = Array.apply(null, Array(21)).map(function(_, i) {
         $('.output-grid')
           .append('<div id="output-' + i + '" class="output"></div>');
-        var dc = diacriticism('#output-' + i);
-        setupDiacriticism(dc);
-        return dc;
+        var d = diacriticism('#output-' + i);
+        setupDiacriticism(d);
+        return d;
+      });
+      criticisms.push(setupDiacriticism(diacriticism('#main-output')));
+
+      $('#refreshButton').click(function() {
+        criticisms.forEach(function(d) { d.reset(); });
+      });
+
+      diacriticism.presets().forEach(function(d) {
+        var selected = d == criticisms[0].preset() ? ' selected="true"' : '';
+        $('#presetInput').append(
+            '<option value="' + d + '"' + selected + '>' + d + '</option>');
+      });
+      $('#presetInput').change(function(e) {
+        var p = $('#presetInput').val();
+        criticisms.forEach(function(d) { d.preset(p); })
       });
     </script>
   </body>

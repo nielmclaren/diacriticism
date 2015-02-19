@@ -20,6 +20,11 @@ html, body {
   width: 930px;
 }
 
+#diacriticism .output-grid .instructions {
+  color: #888;
+  text-align: center;
+}
+
 #diacriticism .output-grid .output {
   background: #f9f9f9;
   float: left;
@@ -35,12 +40,28 @@ html, body {
 
 #diacriticism .form {
   margin: 10px auto;
-  width: 300px;
+  width: 350px;
 }
 
 #diacriticism .input {
   font-size: 22pt;
   text-align: center;
+}
+
+#diacriticism .presets {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#diacriticism label {
+  font-size: 10pt;
+}
+
+#diacriticism select {
+  font-size: 11pt;
+}
+
+#diacriticism button {
 }
 
 #diacriticism .footer {
