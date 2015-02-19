@@ -4,6 +4,11 @@ var diacriticism = (function() {
       .append('<div class="output"></div>')
       .append('<div class="form"><input type="text" class="input" type="text" value="diacriticism" /></div>');
 
+    (new ZeroClipboard($(selector).find('.output')))
+      .on('copy', function(e) {
+        e.clipboardData.setData('text/plain', $(selector).find('.output').text());
+      });
+
     $(selector).find('.input')
       .focus(function() {
         this.select();
