@@ -9,8 +9,8 @@ html, body {
 
 #diacriticism #main-output {
   font-size: 38pt;
-  height: 25%;
-  margin: 10% 0 0 0;
+  height: 20%;
+  margin: 15% 0 0 0;
   text-align: center;
   white-space: pre;
 }
@@ -27,6 +27,7 @@ html, body {
 
 #diacriticism .output-grid .output {
   background: #f9f9f9;
+  border: 1px solid #f9f9f9;
   float: left;
   font-size: 16pt;
   height: 25px;
@@ -34,8 +35,18 @@ html, body {
   overflow: hidden;
   padding: 70px 20px 50px 20px;
   text-align: center;
-  width: 250px;
+  width: 248px;
   white-space: pre;
+}
+
+#diacriticism .output-grid .output.zeroclipboard-is-hover {
+  background: #ffffcc;
+  border: 1px solid #ffff33;
+}
+
+#diacriticism .output-grid .output.zeroclipboard-is-active {
+  background: #eee;
+  border: 1px solid #f3f3f3;
 }
 
 #diacriticism .form {
@@ -46,6 +57,7 @@ html, body {
 #diacriticism .input {
   font-size: 22pt;
   text-align: center;
+  width: 100%;
 }
 
 #diacriticism .presets {

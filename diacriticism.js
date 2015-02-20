@@ -5,14 +5,17 @@ var diacriticism = (function() {
       var value = '',
         data = getData(value),
         preset = 'Mark X',
-        presetFunc = presets[preset];
+        presetFunc = presets[preset],
+        intervalId = null;
 
       (new ZeroClipboard($(selector)))
         .on('copy', function(e) {
           e.clipboardData.setData('text/plain', $(selector).text());
+        })
+        .on('aftercopy', function(e) {
         });
 
-      setInterval(criticizer, 50);
+      intervalId = setInterval(criticizer, 50);
 
       var api = {
         val: function(v) {
@@ -29,6 +32,7 @@ var diacriticism = (function() {
         },
         reset: function() {
           data = getData(selector);
+          intervalId = setInterval(criticizer, 50);
           criticizer();
           return api;
         }
@@ -37,7 +41,10 @@ var diacriticism = (function() {
 
       function criticizer() {
         data = updateData(data, value);
-        data = presetFunc(data);
+        if (!presetFunc(data)) {
+          clearInterval(intervalId);
+          intervalId = null;
+        }
 
         $(selector)
           .text(data.map(function(d) { return d[0] + d[1].join(''); }).join(''));
@@ -79,12 +86,14 @@ var diacriticism = (function() {
   }
 
   function criticizeMarkN(data, n, marker) {
+    var incomplet = false;
     data.forEach(function(d) {
       if (d[0] != ' ' && d[1].length < n) {
         d[1].push(marker());
+        incomplet = true;
       }
     });
-    return data;
+    return incomplet;
   }
 
   function mark() {

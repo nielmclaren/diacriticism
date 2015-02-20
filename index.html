@@ -53,7 +53,7 @@
 
       var criticisms = Array.apply(null, Array(21)).map(function(_, i) {
         $('.output-grid')
-          .append('<div id="output-' + i + '" class="output"></div>');
+          .append('<div id="output-' + i + '" class="output" title="Click to copy to clipboard."></div>');
         var d = diacriticism('#output-' + i);
         setupDiacriticism(d);
         return d;
