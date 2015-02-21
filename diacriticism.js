@@ -82,7 +82,7 @@ var diacriticism = (function() {
       'Mark V': function(d) { return criticizeMarkN(d, 5, randomMark); },
       'Mark X': function(d) { return criticizeMarkN(d, 10, randomMark); },
       'Mark XV': function(d) { return criticizeMarkN(d, 15, randomMark); },
-      'Repetition': function(d) { return criticizeMarkN(d, 5, repeatMark); },
+      'Repetition': function(d) { return criticizeMarkN(d, getRandi(0, 5), repeatMark); },
       'Steamy': function(d) { return criticizeMarkN(d, getRandi(0, 5), function() { return '\u033E'; }); },
       'Electric': function(d) { return criticizeMarkN(d, getRandi(0, 5), function() { return '\u035B'; }); },
       'Rainstorm': function(d) { return criticizeStorm(d, '\u033E'); },
