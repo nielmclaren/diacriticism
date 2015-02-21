@@ -82,6 +82,7 @@ var diacriticism = (function() {
       'Mark V': function(d) { return criticizeMarkN(d, 5, randomMark); },
       'Mark X': function(d) { return criticizeMarkN(d, 10, randomMark); },
       'Mark XV': function(d) { return criticizeMarkN(d, 15, randomMark); },
+      'Repetition': function(d) { return criticizeMarkN(d, 5, repeatMark); },
       'Steamy': function(d) { return criticizeMarkN(d, getRandi(0, 5), function() { return '\u033E'; }); },
       'Electric': function(d) { return criticizeMarkN(d, getRandi(0, 5), function() { return '\u035B'; }); },
       'Rainstorm': function(d) { return criticizeStorm(d, '\u033E'); },
@@ -96,8 +97,11 @@ var diacriticism = (function() {
         d.count = typeof n == 'function' ? n() : n;
       }
       if (d.base != ' ' && d.marks.length < d.count) {
-        d.marks.push(marker());
-        incomplet = true;
+        var c = marker(d.base);
+        if (c) {
+          d.marks.push(c);
+          incomplet = true;
+        }
       }
     });
     return incomplet;
@@ -143,6 +147,25 @@ var diacriticism = (function() {
 
   function randomMark() {
     return String.fromCharCode(768 + Math.floor(Math.random() * 111));
+  }
+
+  function repeatMark(base) {
+    var map = {
+      'a': '\u0363',
+      'e': '\u0364',
+      'i': '\u0365',
+      'o': '\u0366',
+      'u': '\u0367',
+      'c': '\u0368',
+      'd': '\u0369',
+      'h': '\u036A',
+      'm': '\u036B',
+      'r': '\u036C',
+      't': '\u036D',
+      'v': '\u036E',
+      'x': '\u036F'
+    };
+    return map[base.toLowerCase()];
   }
 
 })();
