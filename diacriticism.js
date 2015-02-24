@@ -90,14 +90,15 @@ var diacriticism = (function() {
       'Rainstorm': function(d) { return criticizeStorm(d, '\u033E'); },
       'Thunderstorm': function(d) { return criticizeStorm(d, '\u035B'); },
       'Jagged': function(d) { return criticizeMarkN(d, getRandi(5, 10),
-        getFilteredMarker(function(d) { return d.position != 'on' && d.angled; })); },
+        getFilteredMarker(function(d) { return d.position != 'on' && !d.straight && d.angled && !d.curved; })); },
       'Curvaceous': function(d) { return criticizeMarkN(d, getRandi(5, 10),
         getFilteredMarker(function(d) { return d.position != 'on' && d.curved; })); },
       'Boxy': function(d) { return criticizeMarkN(d, getRandi(5, 10),
-        getFilteredMarker(function(d) { return d.position != 'on' && d.straight; })); },
+        getFilteredMarker(function(d) { return d.position != 'on' && d.straight && !d.angled && !d.curved; })); },
       'Ticklish': function(d) { return criticizeMarkN(d, getRandi(5, 10),
         getFilteredMarker(function(d) { return d.position != 'on' && d.tick; })); },
-      'Bubbly': function(d) { return criticizeMarkN(d, getRandi(5, 10), getArrayMarker(['\u030A', '\u030A', '\u0325', '\u035A'])); }
+      'Bubbly': function(d) { return criticizeMarkN(d, getRandi(5, 10), getArrayMarker(['\u030A', '\u030A', '\u0325', '\u035A'])); },
+      'Faces': function(d) { return criticizeFaces(d); }
     };
   }
 
@@ -178,6 +179,22 @@ var diacriticism = (function() {
     return incomplet;
   }
 
+  function criticizeFaces(data) {
+    var incomplet = false;
+    data.forEach(function(d) {
+      if (typeof d.count == 'undefined') {
+        d.count = randi(0, 3);
+      }
+      if (d.base != ' ') {
+        if (d.marks.length < d.count * 2) {
+          d.marks = d.marks.concat(getFace());
+          incomplet = true;
+        }
+      }
+    });
+    return incomplet;
+  }
+
   function getRandi(minVal, maxVal) {
     return (function(min, max) {
       return function() {
@@ -209,7 +226,6 @@ var diacriticism = (function() {
    */
   function getArrayMarker(marks) {
     return function() {
-      console.log(marks);
       return marks[Math.floor(Math.random() * marks.length)];
     };
   }
@@ -231,6 +247,36 @@ var diacriticism = (function() {
       'x': '\u036F'
     };
     return map[base.toLowerCase()];
+  }
+
+  function getFace() {
+    var faces = [
+      ['\u0306', '\u0308'], // over, happy
+      ['\u0311', '\u0308'], // over, sad
+      ['\u0304', '\u0308'], // over, meh
+      ['\u0346', '\u0308'], // over, square sad
+      ['\u0303', '\u0308'], // over, tilde
+      ['\u033D', '\u0308'], // over, x
+      ['\u030A', '\u0308'], // over, o
+
+      ['\u0324', '\u032E'], // under, happy
+      ['\u0324', '\u032F'], // under, sad
+      ['\u0324', '\u033A'], // under, square happy
+      ['\u0324', '\u032A'], // under, square sad
+      ['\u0324', '\u0331'], // under, meh
+      ['\u0324', '\u033B'], // under, square
+      ['\u0324', '\u0353'], // under, x
+      ['\u0324', '\u0325'], // under, o
+      ['\u0324', '\u0330'], // under, tilde
+      ['\u035A', '\u032E'], // under, nerd
+
+      // repeat
+      ['\u0306', '\u0308'], // over, happy
+      ['\u0311', '\u0308'], // over, sad
+      ['\u0304', '\u0308'], // over, meh
+      ['\u0303', '\u0308'], // over, tilde
+    ];
+    return faces[Math.floor(Math.random() * faces.length)];
   }
 
   function getMarkMetadata() {
